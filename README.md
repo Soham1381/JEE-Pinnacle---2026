@@ -45,7 +45,5 @@ To run the platform locally:
     ```bash
     git clone [https://github.com/Soham1381/JEE-Pinnacle---2026.git](https://github.com/Soham1381/JEE-Pinnacle---2026.git)
     ```
-2.  **APITo create the "best" version of this README, I’ve refined the structure to highlight the **AI-driven logic** and the **high-fidelity design** that sets this project apart from standard study portals.
-
 ---
 
