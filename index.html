@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JEE Pinnacle — Your Path to IIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0e1a;
+    --navy-mid: #111827;
+    --navy-light: #1a2235;
+    --navy-card: #1e2a3e;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #8a6e2e;
+    --cyan: #4fd1c5;
+    --cyan-dim: #2a8a82;
+    --red-accent: #e05252;
+    --green-accent: #4ade80;
+    --text-primary: #f0eee8;
+    --text-secondary: #9aa3b8;
+    --text-muted: #5a6480;
+    --border: rgba(201,168,76,0.18);
+    --border-hover: rgba(201,168,76,0.4);
+    --card-glow: rgba(201,168,76,0.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'DM Sans',sans-serif;
+    background:var(--navy);
+    color:var(--text-primary);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;z-index:0;
+  }
+
+  /* ── SCREENS ── */
+  .screen{display:none;min-height:100vh;position:relative;z-index:1;animation:fadeIn .45s ease}
+  .screen.active{display:flex;flex-direction:column}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* ── NAVBAR ── */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.1rem 2rem;
+    border-bottom:1px solid var(--border);
+    background:rgba(10,14,26,0.8);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:100;
+  }
+  .logo{
+    font-family:'Cormorant Garant',serif;
+    font-size:1.5rem;font-weight:700;
+    color:var(--gold);
+    letter-spacing:0.02em;
+  }
+  .logo span{color:var(--text-primary)}
+  .breadcrumb{
+    display:flex;align-items:center;gap:8px;
+    font-size:0.8rem;color:var(--text-muted);
+    flex-wrap:wrap;
+  }
+  .breadcrumb .crumb{
+    cursor:pointer;transition:color .2s;
+    padding:3px 8px;border-radius:4px;
+  }
+  .breadcrumb .crumb:hover{color:var(--gold)}
+  .breadcrumb .crumb.active{color:var(--gold);font-weight:500}
+  .breadcrumb .sep{color:var(--text-muted);opacity:.5}
+  .exam-badge{
+    font-size:0.72rem;font-weight:600;
+    padding:4px 12px;border-radius:20px;
+    border:1px solid var(--border);
+    color:var(--gold);
+    background:rgba(201,168,76,0.08);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  /* ── HERO / SCREEN 1 ── */
+  .hero{
+    flex:1;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:3rem 2rem;text-align:center;gap:2.5rem;
+  }
+  .hero-eyebrow{
+    font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--gold);font-weight:500;
+    border:1px solid var(--border);
+    padding:6px 18px;border-radius:20px;
+    background:rgba(201,168,76,0.05);
+  }
+  h1.hero-title{
+    font-family:'Cormorant Garant',serif;
+    font-size:clamp(2.8rem,8vw,5.5rem);
+    font-weight:700;line-height:1.05;
+    color:var(--text-primary);
+  }
+  h1.hero-title em{color:var(--gold);font-style:italic}
+  .hero-sub{
+    font-size:clamp(0.95rem,2vw,1.15rem);
+    color:var(--text-secondary);
+    max-width:560px;line-height:1.75;
+  }
+  .exam-cards{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1.5rem;width:100%;max-width:640px;
+  }
+  .exam-card{
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--navy-card);
+    padding:2rem 1.8rem;
+    cursor:pointer;
+    transition:all .3s ease;
+    position:relative;overflow:hidden;
+    text-align:left;
+  }
+  .exam-card::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at 0% 0%,var(--card-glow) 0%,transparent 60%);
+    opacity:0;transition:opacity .3s;
+  }
+  .exam-card:hover{
+    border-color:var(--border-hover);
+    transform:translateY(-4px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 30px rgba(201,168,76,0.08);
+  }
+  .exam-card:hover::before{opacity:1}
+  .exam-card .card-tag{
+    font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:0.7rem;font-weight:500;
+  }
+  .exam-card h2{
+    font-family:'Cormorant Garant',serif;
+    font-size:2rem;font-weight:700;color:var(--gold);margin-bottom:0.5rem;
+  }
+  .exam-card p{font-size:0.85rem;color:var(--text-secondary);line-height:1.6}
+  .exam-card .card-arrow{
+    position:absolute;bottom:1.5rem;right:1.5rem;
+    width:32px;height:32px;border-radius:50%;
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);font-size:1rem;
+    transition:all .3s;
+  }
+  .exam-card:hover .card-arrow{
+    background:var(--gold);color:var(--navy);border-color:var(--gold);
+  }
+  .exam-card.mains .card-tag{color:#4fd1c5}
+  .exam-card.mains h2{color:#4fd1c5}
+  .exam-card.mains:hover{border-color:rgba(79,209,197,0.4);box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 30px rgba(79,209,197,0.08)}
+  .exam-card.mains .card-arrow{color:#4fd1c5}
+  .exam-card.mains:hover .card-arrow{background:#4fd1c5;color:var(--navy);border-color:#4fd1c5}
+
+  .stats-row{
+    display:flex;gap:2.5rem;flex-wrap:wrap;justify-content:center;
+    margin-top:1rem;
+  }
+  .stat{text-align:center}
+  .stat-num{
+    font-family:'Cormorant Garant',serif;
+    font-size:2rem;font-weight:700;color:var(--gold);
+    line-height:1;
+  }
+  .stat-label{font-size:0.78rem;color:var(--text-muted);margin-top:4px;letter-spacing:0.05em}
+
+  /* ── CONTENT WRAPPER ── */
+  .content-wrap{
+    flex:1;max-width:1100px;margin:0 auto;
+    padding:2.5rem 2rem;width:100%;
+  }
+  .section-header{margin-bottom:2rem}
+  .section-header h2{
+    font-family:'Cormorant Garant',serif;
+    font-size:clamp(1.8rem,5vw,2.8rem);
+    font-weight:700;color:var(--text-primary);
+    line-height:1.1;margin-bottom:0.5rem;
+  }
+  .section-header h2 span{color:var(--gold)}
+  .section-header p{color:var(--text-secondary);font-size:0.9rem}
+
+  /* ── SUBJECT CARDS ── */
+  .subject-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:1.2rem;
+  }
+  .subject-card{
+    border:1px solid var(--border);
+    border-radius:14px;background:var(--navy-card);
+    padding:1.8rem;cursor:pointer;
+    transition:all .3s;display:flex;align-items:center;gap:1.2rem;
+    position:relative;overflow:hidden;
+  }
+  .subject-card:hover{
+    border-color:var(--border-hover);
+    transform:translateX(5px);
+    background:var(--navy-light);
+  }
+  .subject-icon{
+    width:54px;height:54px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.6rem;flex-shrink:0;
+    border:1px solid var(--border);
+  }
+  .subject-card .info h3{
+    font-family:'Cormorant Garant',serif;
+    font-size:1.35rem;font-weight:700;margin-bottom:4px;
+  }
+  .subject-card .info p{font-size:0.8rem;color:var(--text-secondary)}
+  .subject-card .chevron{
+    margin-left:auto;color:var(--text-muted);font-size:1.2rem;
+    transition:all .3s;
+  }
+  .subject-card:hover .chevron{color:var(--gold);transform:translateX(4px)}
+  .subject-card.math .subject-icon{background:rgba(201,168,76,0.1);color:var(--gold)}
+  .subject-card.math:hover{border-color:rgba(201,168,76,0.5)}
+  .subject-card.physics .subject-icon{background:rgba(79,209,197,0.1);color:#4fd1c5}
+  .subject-card.physics:hover{border-color:rgba(79,209,197,0.4)}
+  .subject-card.chemistry .subject-icon{background:rgba(224,82,82,0.1);color:#e05252}
+  .subject-card.chemistry:hover{border-color:rgba(224,82,82,0.4)}
+
+  /* ── SUBTOPIC CARDS (Chem) ── */
+  .subtopic-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.2rem;
+  }
+  .subtopic-card{
+    border:1px solid var(--border);border-radius:14px;
+    background:var(--navy-card);padding:1.8rem 1.5rem;
+    cursor:pointer;transition:all .3s;text-align:center;
+  }
+  .subtopic-card:hover{
+    border-color:var(--border-hover);
+    transform:translateY(-4px);
+    box-shadow:0 12px 40px rgba(0,0,0,0.3);
+  }
+  .subtopic-card .sub-icon{font-size:2.5rem;margin-bottom:1rem}
+  .subtopic-card h3{
+    font-family:'Cormorant Garant',serif;
+    font-size:1.3rem;font-weight:700;margin-bottom:6px;
+    color:var(--text-primary);
+  }
+  .subtopic-card p{font-size:0.8rem;color:var(--text-secondary);line-height:1.5}
+
+  /* ── CHAPTER LIST ── */
+  .chapter-list{display:flex;flex-direction:column;gap:0.6rem}
+  .chapter-item{
+    display:flex;align-items:center;gap:1rem;
+    border:1px solid var(--border);border-radius:10px;
+    background:var(--navy-card);padding:1rem 1.3rem;
+    cursor:pointer;transition:all .25s;
+  }
+  .chapter-item:hover{
+    border-color:var(--border-hover);
+    background:var(--navy-light);
+    transform:translateX(4px);
+  }
+  .ch-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;color:var(--text-muted);
+    min-width:28px;font-weight:500;
+  }
+  .ch-name{flex:1;font-size:0.95rem;font-weight:500;color:var(--text-primary)}
+  .ch-tags{display:flex;gap:6px;flex-wrap:wrap}
+  .ch-tag{
+    font-size:0.65rem;padding:3px 8px;border-radius:6px;
+    border:1px solid var(--border);color:var(--text-muted);
+    letter-spacing:0.04em;
+  }
+  .ch-arrow{color:var(--text-muted);font-size:1rem;transition:all .25s}
+  .chapter-item:hover .ch-arrow{color:var(--gold);transform:translateX(4px)}
+
+  /* ── CHAPTER CONTENT ── */
+  .chapter-header{
+    display:flex;flex-direction:column;gap:0.8rem;
+    padding-bottom:1.5rem;
+    border-bottom:1px solid var(--border);
+    margin-bottom:1.5rem;
+  }
+  .chapter-header h2{
+    font-family:'Cormorant Garant',serif;
+    font-size:clamp(1.6rem,4vw,2.4rem);
+    font-weight:700;color:var(--text-primary);
+  }
+  .chapter-header .meta{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  }
+  .meta-tag{
+    font-size:0.72rem;padding:4px 12px;border-radius:20px;
+    border:1px solid var(--border);color:var(--gold);
+    background:rgba(201,168,76,0.07);
+    letter-spacing:0.06em;text-transform:uppercase;
+    font-weight:500;
+  }
+
+  /* ── TABS ── */
+  .tabs{
+    display:flex;gap:0;
+    border:1px solid var(--border);border-radius:10px;
+    overflow:hidden;margin-bottom:1.5rem;
+    background:var(--navy-card);
+  }
+  .tab-btn{
+    flex:1;padding:0.75rem 1rem;
+    font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;
+    background:transparent;border:none;
+    color:var(--text-secondary);cursor:pointer;
+    transition:all .25s;letter-spacing:0.02em;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    border-right:1px solid var(--border);
+  }
+  .tab-btn:last-child{border-right:none}
+  .tab-btn.active{
+    background:rgba(201,168,76,0.12);
+    color:var(--gold);
+  }
+  .tab-btn:hover:not(.active){
+    background:rgba(255,255,255,0.04);color:var(--text-primary);
+  }
+  .tab-icon{font-size:1rem}
+
+  /* ── CONTENT PANELS ── */
+  .tab-panel{display:none;animation:fadeIn .3s ease}
+  .tab-panel.active{display:block}
+
+  /* Theory Panel */
+  .theory-content{
+    line-height:1.85;color:var(--text-secondary);
+  }
+  .theory-content h3{
+    font-family:'Cormorant Garant',serif;
+    font-size:1.4rem;font-weight:700;
+    color:var(--text-primary);
+    margin:1.8rem 0 0.7rem;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--border);
+  }
+  .theory-content h3:first-child{margin-top:0}
+  .theory-content p{margin-bottom:1rem;font-size:0.92rem}
+  .formula-box{
+    background:var(--navy-light);border:1px solid rgba(201,168,76,0.2);
+    border-left:3px solid var(--gold);
+    border-radius:0 10px 10px 0;
+    padding:1rem 1.3rem;margin:1rem 0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.88rem;color:var(--gold-light);
+    overflow-x:auto;
+  }
+  .key-point{
+    background:rgba(79,209,197,0.06);
+    border:1px solid rgba(79,209,197,0.15);
+    border-left:3px solid var(--cyan);
+    border-radius:0 10px 10px 0;
+    padding:0.9rem 1.2rem;margin:1rem 0;
+    font-size:0.88rem;color:var(--text-secondary);
+  }
+  .key-point strong{color:var(--cyan);font-weight:500}
+  .warning-box{
+    background:rgba(224,82,82,0.06);
+    border:1px solid rgba(224,82,82,0.2);
+    border-left:3px solid var(--red-accent);
+    border-radius:0 10px 10px 0;
+    padding:0.9rem 1.2rem;margin:1rem 0;
+    font-size:0.88rem;color:var(--text-secondary);
+  }
+  .warning-box strong{color:var(--red-accent);font-weight:500}
+
+  /* DPP Panel */
+  .dpp-section{margin-bottom:2rem}
+  .dpp-section-header{
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:1rem;padding-bottom:0.6rem;
+    border-bottom:1px solid var(--border);
+  }
+  .dpp-level-badge{
+    font-size:0.7rem;padding:4px 12px;border-radius:20px;
+    font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  }
+  .level-basic .dpp-level-badge{background:rgba(74,222,128,0.12);color:var(--green-accent);border:1px solid rgba(74,222,128,0.25)}
+  .level-inter .dpp-level-badge{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+  .level-tough .dpp-level-badge{background:rgba(224,82,82,0.12);color:var(--red-accent);border:1px solid rgba(224,82,82,0.25)}
+  .dpp-section-header h4{
+    font-size:1rem;font-weight:600;color:var(--text-primary);
+    font-family:'Cormorant Garant',serif;font-size:1.15rem;
+  }
+  .problem-card{
+    border:1px solid var(--border);border-radius:10px;
+    background:var(--navy-card);margin-bottom:0.7rem;
+    overflow:hidden;
+  }
+  .problem-header{
+    display:flex;align-items:center;gap:10px;
+    padding:0.85rem 1.1rem;cursor:pointer;
+    transition:background .2s;
+  }
+  .problem-header:hover{background:rgba(255,255,255,0.03)}
+  .prob-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;color:var(--text-muted);min-width:22px;
+  }
+  .prob-text{flex:1;font-size:0.88rem;color:var(--text-primary);line-height:1.5}
+  .prob-toggle{
+    font-size:0.75rem;color:var(--text-muted);
+    transition:transform .25s;
+    min-width:16px;text-align:center;
+  }
+  .problem-card.open .prob-toggle{transform:rotate(180deg)}
+  .problem-answer{
+    display:none;
+    padding:0.8rem 1.1rem 1rem;
+    border-top:1px solid var(--border);
+    background:rgba(201,168,76,0.03);
+    font-size:0.85rem;color:var(--text-secondary);
+    line-height:1.7;
+  }
+  .problem-card.open .problem-answer{display:block}
+  .ans-label{
+    font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--gold);font-weight:600;margin-bottom:6px;
+  }
+
+  /* PYQ Panel */
+  .pyq-header{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:1.2rem;flex-wrap:wrap;gap:1rem;
+  }
+  .pyq-info{font-size:0.82rem;color:var(--text-secondary)}
+  .pyq-card{
+    border:1px solid var(--border);border-radius:10px;
+    background:var(--navy-card);padding:1.2rem;
+    margin-bottom:0.8rem;
+  }
+  .pyq-meta{
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:0.7rem;flex-wrap:wrap;
+  }
+  .pyq-year{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;color:var(--gold);
+    background:rgba(201,168,76,0.1);
+    padding:3px 8px;border-radius:5px;font-weight:500;
+  }
+  .pyq-shift{font-size:0.7rem;color:var(--text-muted);
+    padding:3px 8px;border-radius:5px;
+    border:1px solid var(--border);
+  }
+  .pyq-marks{font-size:0.7rem;color:var(--cyan);
+    padding:3px 8px;border-radius:5px;
+    border:1px solid rgba(79,209,197,0.2);
+    background:rgba(79,209,197,0.06);
+  }
+  .pyq-question{font-size:0.9rem;color:var(--text-primary);line-height:1.6;margin-bottom:0.8rem}
+  .pyq-options{display:flex;flex-direction:column;gap:5px;margin-bottom:0.9rem}
+  .pyq-opt{
+    font-size:0.82rem;color:var(--text-secondary);
+    padding:5px 10px;border-radius:6px;
+    border:1px solid transparent;
+    display:flex;gap:8px;
+  }
+  .pyq-opt.correct{
+    border-color:rgba(74,222,128,0.25);
+    background:rgba(74,222,128,0.06);
+    color:var(--green-accent);
+  }
+  .pyq-opt .opt-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;min-width:18px;font-weight:500;
+  }
+  .pyq-sol-btn{
+    font-size:0.78rem;color:var(--gold);
+    background:rgba(201,168,76,0.08);
+    border:1px solid rgba(201,168,76,0.2);
+    padding:5px 14px;border-radius:7px;
+    cursor:pointer;transition:all .2s;
+    font-family:'DM Sans',sans-serif;
+  }
+  .pyq-sol-btn:hover{background:rgba(201,168,76,0.15)}
+  .pyq-solution{
+    display:none;margin-top:0.8rem;
+    padding:0.8rem;border-radius:8px;
+    background:var(--navy-light);border:1px solid var(--border);
+    font-size:0.83rem;color:var(--text-secondary);line-height:1.7;
+  }
+  .pyq-card.sol-open .pyq-solution{display:block}
+
+  /* ── LOADER ── */
+  .ai-loader{
+    display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:1.2rem;
+    padding:3rem 2rem;
+  }
+  .loader-dots{display:flex;gap:6px}
+  .loader-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--gold);
+    animation:dot-bounce 1.2s ease-in-out infinite;
+  }
+  .loader-dot:nth-child(2){animation-delay:.2s;background:var(--cyan)}
+  .loader-dot:nth-child(3){animation-delay:.4s}
+  @keyframes dot-bounce{
+    0%,80%,100%{transform:scale(.6);opacity:.4}
+    40%{transform:scale(1);opacity:1}
+  }
+  .loader-text{font-size:0.85rem;color:var(--text-muted);font-style:italic}
+
+  /* ── ERROR STATE ── */
+  .error-box{
+    border:1px solid rgba(224,82,82,0.3);
+    background:rgba(224,82,82,0.06);
+    border-radius:10px;padding:1.2rem 1.5rem;
+    color:var(--red-accent);font-size:0.88rem;
+    line-height:1.6;
+  }
+
+  /* ── BACK BTN ── */
+  .back-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:0.82rem;color:var(--text-muted);
+    cursor:pointer;transition:color .2s;
+    margin-bottom:1.5rem;padding:5px 0;
+    border:none;background:none;
+    font-family:'DM Sans',sans-serif;
+  }
+  .back-btn:hover{color:var(--gold)}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:640px){
+    nav{padding:.9rem 1.2rem}
+    .content-wrap{padding:1.5rem 1rem}
+    .hero{padding:2rem 1rem;gap:1.8rem}
+    h1.hero-title{font-size:2.4rem}
+    .stats-row{gap:1.5rem}
+    .exam-cards{grid-template-columns:1fr}
+    .tabs{flex-direction:column;border-radius:10px}
+    .tab-btn{border-right:none;border-bottom:1px solid var(--border);padding:.65rem}
+    .tab-btn:last-child{border-bottom:none}
+    .subject-grid{grid-template-columns:1fr}
+    .subtopic-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:400px){
+    .logo{font-size:1.2rem}
+    .exam-badge{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ SCREEN 1: EXAM SELECTION ═══════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <nav>
+    <div class="logo">JEE <span>Pinnacle</span></div>
+    <div style="font-size:0.75rem;color:var(--text-muted);letter-spacing:0.05em">Your Path to IIT</div>
+  </nav>
+  <div class="hero">
+    <div class="hero-eyebrow">India's Premier JEE Preparation Platform</div>
+    <h1 class="hero-title">Crack JEE with<br><em>Precision & Clarity</em></h1>
+    <p class="hero-sub">AI-powered study material — theory, daily practice problems, and previous year questions — tailored exactly to your exam.</p>
+    <div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;letter-spacing:0.05em;text-transform:uppercase">Select Your Examination</p>
+      <div class="exam-cards">
+        <div class="exam-card mains" onclick="selectExam('mains')">
+          <div class="card-tag">National Level</div>
+          <h2>JEE Mains</h2>
+          <p>Comprehensive syllabus for Paper 1 B.E./B.Tech. 300 marks · 90 questions · 3 hours</p>
+          <div class="card-arrow">→</div>
+        </div>
+        <div class="exam-card" onclick="selectExam('advanced')">
+          <div class="card-tag">Premium Track</div>
+          <h2>JEE Advanced</h2>
+          <p>Deeper conceptual coverage for IIT admission. Multi-correct, integer & paragraph type questions.</p>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Subjects</div></div>
+      <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Chapters</div></div>
+      <div class="stat"><div class="stat-num">5000+</div><div class="stat-label">PYQs</div></div>
+      <div class="stat"><div class="stat-num">AI</div><div class="stat-label">Powered</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SCREEN 2: SUBJECT SELECTION ═══════════════════════════════ -->
+<div id="screen-subjects" class="screen">
+  <nav>
+    <div class="logo">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb">
+      <span class="crumb" onclick="goHome()">Home</span>
+      <span class="sep">›</span>
+      <span class="crumb active" id="bc-exam">Subjects</span>
+    </div>
+    <div class="exam-badge" id="exam-badge-sub"></div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <div class="section-header">
+      <h2>Choose Your <span>Subject</span></h2>
+      <p>Select a subject to explore its complete syllabus and study material</p>
+    </div>
+    <div class="subject-grid">
+      <div class="subject-card math" onclick="selectSubject('math')">
+        <div class="subject-icon">∑</div>
+        <div class="info">
+          <h3>Mathematics</h3>
+          <p id="math-chcount">Loading chapters...</p>
+        </div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="subject-card physics" onclick="selectSubject('physics')">
+        <div class="subject-icon">⚡</div>
+        <div class="info">
+          <h3>Physics</h3>
+          <p id="phys-chcount">Loading chapters...</p>
+        </div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="subject-card chemistry" onclick="selectSubject('chemistry')">
+        <div class="subject-icon">⚗</div>
+        <div class="info">
+          <h3>Chemistry</h3>
+          <p>3 sub-sections: Physical, Organic, Inorganic</p>
+        </div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SCREEN 3: CHEM SUBTOPICS ═══════════════════════════════ -->
+<div id="screen-chem" class="screen">
+  <nav>
+    <div class="logo">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb">
+      <span class="crumb" onclick="goHome()">Home</span>
+      <span class="sep">›</span>
+      <span class="crumb" onclick="goToSubjects()">Subjects</span>
+      <span class="sep">›</span>
+      <span class="crumb active">Chemistry</span>
+    </div>
+    <div class="exam-badge" id="exam-badge-chem"></div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" onclick="goToSubjects()">← Back to Subjects</button>
+    <div class="section-header">
+      <h2>Chemistry <span>Sections</span></h2>
+      <p>Chemistry is divided into three major branches — choose your section</p>
+    </div>
+    <div class="subtopic-grid">
+      <div class="subtopic-card" onclick="selectChemSection('physical')">
+        <div class="sub-icon">🔬</div>
+        <h3>Physical Chemistry</h3>
+        <p>Thermodynamics, Kinetics, Electrochemistry, Atomic Structure & more</p>
+      </div>
+      <div class="subtopic-card" onclick="selectChemSection('organic')">
+        <div class="sub-icon">🧬</div>
+        <h3>Organic Chemistry</h3>
+        <p>GOC, Hydrocarbons, Reaction Mechanisms, Named Reactions & Biomolecules</p>
+      </div>
+      <div class="subtopic-card" onclick="selectChemSection('inorganic')">
+        <div class="sub-icon">⚗️</div>
+        <h3>Inorganic Chemistry</h3>
+        <p>Periodic Table, s/p/d/f Block, Coordination Compounds & Qualitative Analysis</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SCREEN 4: CHAPTER LIST ═══════════════════════════════ -->
+<div id="screen-chapters" class="screen">
+  <nav>
+    <div class="logo">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb" id="chapter-breadcrumb"></div>
+    <div class="exam-badge" id="exam-badge-ch"></div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" id="ch-back-btn">← Back</button>
+    <div class="section-header">
+      <h2 id="chapter-list-title">Chapters</h2>
+      <p id="chapter-list-sub"></p>
+    </div>
+    <div class="chapter-list" id="chapter-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SCREEN 5: CHAPTER CONTENT ═══════════════════════════════ -->
+<div id="screen-content" class="screen">
+  <nav>
+    <div class="logo">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb" id="content-breadcrumb"></div>
+    <div class="exam-badge" id="exam-badge-cont"></div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" id="content-back-btn">← Back to Chapters</button>
+    <div class="chapter-header">
+      <h2 id="content-chapter-title"></h2>
+      <div class="meta">
+        <span class="meta-tag" id="content-exam-tag"></span>
+        <span class="meta-tag" id="content-subject-tag"></span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('theory')" id="tab-theory">
+        <span class="tab-icon">📖</span> Theory
+      </button>
+      <button class="tab-btn" onclick="switchTab('dpp')" id="tab-dpp">
+        <span class="tab-icon">✏️</span> DPP
+      </button>
+      <button class="tab-btn" onclick="switchTab('pyq')" id="tab-pyq">
+        <span class="tab-icon">📋</span> PYQs
+      </button>
+    </div>
+
+    <!-- Theory -->
+    <div class="tab-panel active" id="panel-theory">
+      <div id="theory-body"></div>
+    </div>
+
+    <!-- DPP -->
+    <div class="tab-panel" id="panel-dpp">
+      <div id="dpp-body"></div>
+    </div>
+
+    <!-- PYQs -->
+    <div class="tab-panel" id="panel-pyq">
+      <div id="pyq-body"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════ DATA ═══════════════════════
+const SYLLABUS = {
+  mains: {
+    math: [
+      "Sets, Relations and Functions","Complex Numbers & Quadratic Equations","Matrices and Determinants",
+      "Permutations and Combinations","Mathematical Induction","Binomial Theorem",
+      "Sequences and Series","Limits, Continuity and Differentiability","Applications of Derivatives",
+      "Integral Calculus","Differential Equations","Coordinate Geometry — Straight Lines",
+      "Conic Sections","Three Dimensional Geometry","Vector Algebra",
+      "Statistics & Probability","Trigonometry & Inverse Trigonometric Functions","Mathematical Reasoning"
+    ],
+    physics: [
+      "Units, Dimensions & Measurement","Kinematics in 1D & 2D","Laws of Motion & Friction",
+      "Work, Energy and Power","Centre of Mass & Collisions","Rotational Motion",
+      "Gravitation","Properties of Matter & Fluid Mechanics","Thermal Properties & Calorimetry",
+      "Kinetic Theory of Gases","Thermodynamics","Simple Harmonic Motion",
+      "Waves & Sound","Electrostatics","Current Electricity",
+      "Moving Charges & Magnetism","Electromagnetic Induction & AC Circuits",
+      "Electromagnetic Waves","Ray Optics","Wave Optics",
+      "Dual Nature of Matter & Radiation","Atoms & Nuclei","Semiconductor Devices"
+    ],
+    chemistry: {
+      physical: [
+        "Some Basic Concepts of Chemistry","Atomic Structure","States of Matter: Gases & Liquids",
+        "Chemical Bonding & Molecular Structure","Thermodynamics","Chemical Equilibrium",
+        "Ionic Equilibrium","Redox Reactions","Solutions","Electrochemistry","Chemical Kinetics",
+        "Surface Chemistry"
+      ],
+      organic: [
+        "General Organic Chemistry (GOC)","Hydrocarbons","Haloalkanes and Haloarenes",
+        "Alcohols, Phenols and Ethers","Aldehydes, Ketones and Carboxylic Acids",
+        "Amines","Biomolecules","Polymers","Chemistry in Everyday Life"
+      ],
+      inorganic: [
+        "Periodic Table & Periodicity","Hydrogen & its Compounds","s-Block Elements",
+        "p-Block Elements (Group 13-14)","p-Block Elements (Group 15-18)","d and f Block Elements",
+        "Coordination Compounds","Metallurgy","Qualitative Inorganic Analysis"
+      ]
+    }
+  },
+  advanced: {
+    math: [
+      "Sets, Relations and Functions","Complex Numbers & De Moivre's Theorem","Quadratic Equations & Inequalities",
+      "Matrices, Determinants & Systems","Permutations, Combinations & Binomial","Sequences, Series & Limits",
+      "Differential Calculus — Functions & Derivatives","Applications of Derivatives & Mean Value Theorems",
+      "Indefinite & Definite Integration","Differential Equations & Applications",
+      "Coordinate Geometry — Straight Lines & Circles","Conic Sections — Parabola, Ellipse, Hyperbola",
+      "Three Dimensional Geometry","Vector Algebra & Applications",
+      "Probability — Classical & Advanced","Trigonometry & Inverse Functions",
+      "Mathematical Induction & Reasoning","Logarithms & Functional Equations"
+    ],
+    physics: [
+      "Dimensional Analysis & Measurement","Kinematics — 1D, 2D & Projectile","Laws of Motion — Dynamics",
+      "Work, Energy, Power & Collisions","Rotational Dynamics & Moment of Inertia",
+      "Gravitation & Orbital Mechanics","Fluid Statics & Dynamics","Elasticity & Surface Tension",
+      "Thermal Expansion & Calorimetry","Kinetic Theory & Gas Laws",
+      "First & Second Laws of Thermodynamics","Simple Harmonic Motion & Oscillations",
+      "Wave Mechanics — Superposition & Doppler Effect","Electrostatics — Fields & Potentials",
+      "Capacitors — Energy & Circuits","Current Electricity — Kirchhoff's Laws",
+      "Magnetic Force — Biot-Savart & Ampere's Law","Electromagnetic Induction — Faraday & Lenz",
+      "Alternating Current Circuits","Electromagnetic Waves — Maxwell's Equations",
+      "Geometrical Optics — Mirrors & Lenses","Wave Optics — Interference & Diffraction",
+      "Modern Physics — Photoelectric Effect & Compton","Nuclear Physics — Radioactivity & Reactions",
+      "Electronics — Semiconductors & Logic Gates"
+    ],
+    chemistry: {
+      physical: [
+        "Mole Concept & Stoichiometry","Atomic Structure & Quantum Mechanics",
+        "Chemical Bonding — VBT, MOT, VSEPR","States of Matter & Real Gases",
+        "Thermodynamics & Thermochemistry","Chemical & Ionic Equilibrium",
+        "Redox Reactions & Electrochemistry","Solutions & Colligative Properties",
+        "Chemical Kinetics & Rate Laws","Surface Chemistry & Adsorption"
+      ],
+      organic: [
+        "GOC — Structure, Nomenclature, Isomerism","GOC — Reaction Mechanisms & Effects",
+        "Hydrocarbons — Alkanes, Alkenes, Alkynes","Stereochemistry","Aromaticity & Aromatic Compounds",
+        "Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Carbonyl Compounds",
+        "Carboxylic Acids & Derivatives","Amines & Diazonium Salts",
+        "Biomolecules & Named Reactions","Practical Organic Chemistry"
+      ],
+      inorganic: [
+        "Periodic Properties & Chemical Bonding","Hydrogen & Hydrides",
+        "s-Block — Alkali & Alkaline Earth","p-Block — Boron & Carbon Family",
+        "p-Block — Nitrogen & Oxygen Family","p-Block — Halogens & Noble Gases",
+        "d-Block — Transition Elements","f-Block — Lanthanides & Actinides",
+        "Coordination Chemistry — Werner's Theory","Coordination Chemistry — Isomerism & EAN",
+        "Extractive Metallurgy","Qualitative Salt Analysis"
+      ]
+    }
+  }
+};
+
+// ═══════════════════════ STATE ═══════════════════════
+let state = {
+  exam: null,           // 'mains' | 'advanced'
+  subject: null,        // 'math' | 'physics' | 'chemistry'
+  chemSection: null,    // 'physical' | 'organic' | 'inorganic'
+  chapter: null,        // chapter name string
+  chapterIdx: null,
+  activeTab: 'theory',
+  loaded: { theory: false, dpp: false, pyq: false }
+};
+
+// ═══════════════════════ NAVIGATION ═══════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome() { state.exam = null; showScreen('screen-home'); }
+function goToSubjects() { showScreen('screen-subjects'); }
+
+function selectExam(exam) {
+  state.exam = exam;
+  const label = exam === 'mains' ? 'JEE Mains' : 'JEE Advanced';
+  document.getElementById('exam-badge-sub').textContent = label;
+  document.getElementById('bc-exam').textContent = 'Subjects';
+  const syl = SYLLABUS[exam];
+  document.getElementById('math-chcount').textContent = syl.math.length + ' chapters';
+  document.getElementById('phys-chcount').textContent = syl.physics.length + ' chapters';
+  showScreen('screen-subjects');
+}
+
+function selectSubject(subject) {
+  state.subject = subject;
+  state.chemSection = null;
+  if (subject === 'chemistry') {
+    document.getElementById('exam-badge-chem').textContent = state.exam === 'mains' ? 'JEE Mains' : 'JEE Advanced';
+    showScreen('screen-chem');
+  } else {
+    loadChapterList();
+  }
+}
+
+function selectChemSection(section) {
+  state.chemSection = section;
+  loadChapterList();
+}
+
+function loadChapterList() {
+  const syl = SYLLABUS[state.exam];
+  let chapters;
+  let titleText, subText;
+  const examLabel = state.exam === 'mains' ? 'JEE Mains' : 'JEE Advanced';
+
+  if (state.subject === 'chemistry') {
+    chapters = syl.chemistry[state.chemSection];
+    const sectionLabel = { physical:'Physical Chemistry', organic:'Organic Chemistry', inorganic:'Inorganic Chemistry' }[state.chemSection];
+    titleText = `<span>${sectionLabel}</span>`;
+    subText = `${chapters.length} chapters · ${examLabel}`;
+  } else {
+    chapters = syl[state.subject];
+    const subjectLabel = { math:'Mathematics', physics:'Physics' }[state.subject];
+    titleText = `<span>${subjectLabel}</span> Chapters`;
+    subText = `${chapters.length} chapters · ${examLabel}`;
+  }
+
+  document.getElementById('chapter-list-title').innerHTML = titleText;
+  document.getElementById('chapter-list-sub').textContent = subText;
+  document.getElementById('exam-badge-ch').textContent = examLabel;
+
+  // Back button
+  document.getElementById('ch-back-btn').onclick = state.subject === 'chemistry'
+    ? () => showScreen('screen-chem')
+    : () => showScreen('screen-subjects');
+
+  // Breadcrumb
+  const subLabel = state.subject === 'chemistry'
+    ? ({physical:'Phys. Chem',organic:'Org. Chem',inorganic:'Inorg. Chem'}[state.chemSection])
+    : ({math:'Mathematics',physics:'Physics'}[state.subject]);
+  document.getElementById('chapter-breadcrumb').innerHTML = `
+    <span class="crumb" onclick="goHome()">Home</span>
+    <span class="sep">›</span>
+    <span class="crumb" onclick="goToSubjects()">Subjects</span>
+    ${state.subject==='chemistry'?`<span class="sep">›</span><span class="crumb" onclick="showScreen('screen-chem')">Chemistry</span>`:''}
+    <span class="sep">›</span>
+    <span class="crumb active">${subLabel}</span>
+  `;
+
+  // Render chapter list
+  const container = document.getElementById('chapter-list');
+  container.innerHTML = chapters.map((ch, i) => `
+    <div class="chapter-item" onclick="openChapter('${escQ(ch)}', ${i})">
+      <span class="ch-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="ch-name">${ch}</span>
+      <div class="ch-tags">
+        <span class="ch-tag">Theory</span>
+        <span class="ch-tag">DPP</span>
+        <span class="ch-tag">PYQs</span>
+      </div>
+      <span class="ch-arrow">›</span>
+    </div>
+  `).join('');
+
+  showScreen('screen-chapters');
+}
+
+function escQ(s) { return s.replace(/'/g, "\\'"); }
+
+function openChapter(chName, idx) {
+  state.chapter = chName;
+  state.chapterIdx = idx;
+  state.loaded = { theory: false, dpp: false, pyq: false };
+  state.activeTab = 'theory';
+
+  const examLabel = state.exam === 'mains' ? 'JEE Mains' : 'JEE Advanced';
+  const subLabel = state.subject === 'chemistry'
+    ? ({physical:'Physical Chem',organic:'Organic Chem',inorganic:'Inorganic Chem'}[state.chemSection])
+    : ({math:'Mathematics',physics:'Physics'}[state.subject]);
+
+  document.getElementById('content-chapter-title').textContent = chName;
+  document.getElementById('content-exam-tag').textContent = examLabel;
+  document.getElementById('content-subject-tag').textContent = subLabel;
+  document.getElementById('exam-badge-cont').textContent = examLabel;
+
+  // Breadcrumb
+  document.getElementById('content-breadcrumb').innerHTML = `
+    <span class="crumb" onclick="goHome()">Home</span>
+    <span class="sep">›</span>
+    <span class="crumb" onclick="goToSubjects()">Subjects</span>
+    <span class="sep">›</span>
+    <span class="crumb" onclick="loadChapterList()">${subLabel}</span>
+    <span class="sep">›</span>
+    <span class="crumb active" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${chName}</span>
+  `;
+
+  // Back btn
+  document.getElementById('content-back-btn').onclick = loadChapterList;
+
+  // Reset tab UI
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-theory').classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-theory').classList.add('active');
+
+  // Load theory immediately
+  document.getElementById('theory-body').innerHTML = '';
+  document.getElementById('dpp-body').innerHTML = '';
+  document.getElementById('pyq-body').innerHTML = '';
+  loadContent('theory');
+
+  showScreen('screen-content');
+}
+
+function switchTab(tab) {
+  state.activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  if (!state.loaded[tab]) loadContent(tab);
+}
+
+// ═══════════════════════ AI CONTENT LOADING ═══════════════════════
+function showLoader(containerId, msg) {
+  document.getElementById(containerId).innerHTML = `
+    <div class="ai-loader">
+      <div class="loader-dots">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+      </div>
+      <p class="loader-text">${msg}</p>
+    </div>
+  `;
+}
+
+function showError(containerId, msg) {
+  document.getElementById(containerId).innerHTML = `<div class="error-box">⚠ ${msg}</div>`;
+}
+
+async function callClaude(prompt) {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  const data = await res.json();
+  return data.content.map(b => b.text || '').join('');
+}
+
+async function loadContent(tab) {
+  const ch = state.chapter;
+  const exam = state.exam === 'mains' ? 'JEE Mains' : 'JEE Advanced';
+  const subLabel = state.subject === 'chemistry'
+    ? `${({physical:'Physical',organic:'Organic',inorganic:'Inorganic'}[state.chemSection])} Chemistry`
+    : ({math:'Mathematics',physics:'Physics'}[state.subject]);
+
+  if (tab === 'theory') {
+    const bodyId = 'theory-body';
+    showLoader(bodyId, `Generating summarized theory for "${ch}"…`);
+    const prompt = `You are an expert JEE teacher. Generate concise, well-structured theory notes for the chapter "${ch}" from ${subLabel} for ${exam}.
+
+Format your response ONLY using this HTML structure (no markdown, no backticks, use these exact HTML tags):
+- Use <h3> for major section headings
+- Use <p> for paragraphs
+- Use <div class="formula-box"> for important formulas/equations
+- Use <div class="key-point"><strong>Key Insight:</strong> ...</div> for important conceptual points
+- Use <div class="warning-box"><strong>Common Mistake:</strong> ...</div> for common errors
+
+Cover: core concepts, important formulas, derivation hints, key points, and exam tips. Keep it focused and exam-relevant. No preamble — start directly with the first <h3>.`;
+
+    try {
+      const html = await callClaude(prompt);
+      document.getElementById(bodyId).innerHTML = `<div class="theory-content">${html}</div>`;
+      state.loaded.theory = true;
+    } catch(e) {
+      showError(bodyId, `Could not load theory. ${e.message}`);
+    }
+
+  } else if (tab === 'dpp') {
+    const bodyId = 'dpp-body';
+    showLoader(bodyId, `Creating DPP problems for "${ch}"…`);
+    const prompt = `You are an expert JEE problem setter. Create a Daily Practice Problem (DPP) set for "${ch}" from ${subLabel} for ${exam}.
+
+Respond ONLY with valid JSON (no markdown, no backticks, no explanation):
+{
+  "basic": [
+    {"q": "question text", "ans": "detailed answer/solution with key steps"},
+    {"q": "...", "ans": "..."},
+    {"q": "...", "ans": "..."}
+  ],
+  "intermediate": [
+    {"q": "question text", "ans": "detailed answer/solution"},
+    {"q": "...", "ans": "..."},
+    {"q": "...", "ans": "..."}
+  ],
+  "tough": [
+    {"q": "question text", "ans": "detailed answer/solution"},
+    {"q": "...", "ans": "..."},
+    {"q": "...", "ans": "..."}
+  ]
+}
+
+Basic: concept building, direct formula application.
+Intermediate: multi-step, requires conceptual understanding.
+Tough: complex, multi-concept problems typical of ${exam}.`;
+
+    try {
+      const raw = await callClaude(prompt);
+      const clean = raw.replace(/```json|```/g,'').trim();
+      const data = JSON.parse(clean);
+      renderDPP(bodyId, data);
+      state.loaded.dpp = true;
+    } catch(e) {
+      showError(bodyId, `Could not load DPP. ${e.message}`);
+    }
+
+  } else if (tab === 'pyq') {
+    const bodyId = 'pyq-body';
+    showLoader(bodyId, `Loading ${exam} PYQs for "${ch}"…`);
+    const prompt = `You are a JEE expert. Generate 5 realistic Previous Year Questions (PYQs) style problems for "${ch}" from ${subLabel}, in the style of ${exam}.
+
+Respond ONLY with valid JSON (no markdown, no backticks):
+{
+  "pyqs": [
+    {
+      "year": "2023",
+      "shift": "Shift 1",
+      "marks": "4",
+      "question": "question text",
+      "options": ["option A text", "option B text", "option C text", "option D text"],
+      "correct": 0,
+      "solution": "step-by-step solution explaining the approach and answer"
+    }
+  ]
+}
+
+Make the questions realistic, varied in type, covering important sub-topics. correct is 0-indexed. Use years 2019-2024.`;
+
+    try {
+      const raw = await callClaude(prompt);
+      const clean = raw.replace(/```json|```/g,'').trim();
+      const data = JSON.parse(clean);
+      renderPYQ(bodyId, data.pyqs);
+      state.loaded.pyq = true;
+    } catch(e) {
+      showError(bodyId, `Could not load PYQs. ${e.message}`);
+    }
+  }
+}
+
+function renderDPP(containerId, data) {
+  const levels = [
+    { key:'basic', label:'Basic — Concept Building', cls:'level-basic' },
+    { key:'intermediate', label:'Intermediate', cls:'level-inter' },
+    { key:'tough', label:'Tough & Challenging', cls:'level-tough' }
+  ];
+  const labelMap = { basic:'Basic', intermediate:'Intermediate', tough:'Advanced' };
+  let html = '';
+  levels.forEach(lv => {
+    const probs = data[lv.key] || [];
+    html += `
+      <div class="dpp-section ${lv.cls}">
+        <div class="dpp-section-header">
+          <span class="dpp-level-badge">${labelMap[lv.key]}</span>
+          <h4>${lv.label}</h4>
+        </div>
+        ${probs.map((p,i) => `
+          <div class="problem-card" id="dpp-${lv.key}-${i}">
+            <div class="problem-header" onclick="toggleProblem('dpp-${lv.key}-${i}')">
+              <span class="prob-num">Q${i+1}</span>
+              <span class="prob-text">${p.q}</span>
+              <span class="prob-toggle">▾</span>
+            </div>
+            <div class="problem-answer">
+              <div class="ans-label">Solution</div>
+              <div>${p.ans}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function renderPYQ(containerId, pyqs) {
+  const examLabel = state.exam === 'mains' ? 'JEE Mains' : 'JEE Advanced';
+  let html = `
+    <div class="pyq-header">
+      <p class="pyq-info">Showing ${pyqs.length} questions in the style of ${examLabel} Previous Year Questions</p>
+    </div>`;
+  const optLabels = ['A','B','C','D'];
+  pyqs.forEach((q, qi) => {
+    const opts = (q.options||[]).map((opt, oi) => `
+      <div class="pyq-opt ${oi === q.correct ? 'correct' : ''}">
+        <span class="opt-label">(${optLabels[oi]})</span>
+        <span>${opt}</span>
+        ${oi === q.correct ? '<span style="margin-left:auto;font-size:0.7rem;color:var(--green-accent)">✓</span>' : ''}
+      </div>
+    `).join('');
+    html += `
+      <div class="pyq-card" id="pyq-${qi}">
+        <div class="pyq-meta">
+          <span class="pyq-year">${q.year || '2023'}</span>
+          ${q.shift ? `<span class="pyq-shift">${q.shift}</span>` : ''}
+          <span class="pyq-marks">+${q.marks || 4} Marks</span>
+        </div>
+        <div class="pyq-question">${q.question}</div>
+        <div class="pyq-options">${opts}</div>
+        <button class="pyq-sol-btn" onclick="toggleSolution('pyq-${qi}')">View Solution →</button>
+        <div class="pyq-solution">${q.solution || ''}</div>
+      </div>`;
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function toggleProblem(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSolution(id) {
+  document.getElementById(id).classList.toggle('sol-open');
+}
+</script>
+</body>
+</html>
