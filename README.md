@@ -25,7 +25,33 @@ The platform is engineered as a lightweight **Single Page Application (SPA)** fr
 
 ---
 
+<<<<<<< HEAD
 ## 🚀 Getting Started
+=======
+## 🛠️ Technical Architecture
+
+### **Core Stack**
+*   **Frontend**: Vanilla HTML5 and CSS3 (utilizing CSS Variables, Flexbox, and Grid for a modern layout).
+*   **Engine**: ES6+ JavaScript for state handling, screen transitions, and asynchronous API calls.
+*   **AI Backend**: Integrated with **Claude 3.5 Sonnet** for generating high-quality pedagogical content.
+
+### **Data Structure**
+The platform contains a hardcoded, comprehensive syllabus mapping for:
+*   **Mathematics**: Sets to Vector Algebra.
+*   **Physics**: Kinematics to Semiconductor Devices.
+*   **Chemistry**: Divided into Physical, Organic, and Inorganic sub-sections with specific chapter lists for both Mains and Advanced tracks.
+
+---
+
+## 🔧 Installation & Setup
+To run the platform locally:
+
+1.  **Clone the Repository**:
+    ```bash
+    git clone [https://github.com/Soham1381/JEE-Pinnacle---2026.git](https://github.com/Soham1381/JEE-Pinnacle---2026.git)
+    ```
+---
+>>>>>>> 7a1d79eafb5f12b0104599b4cc336ddddbba13a3
 
 1. **Clone the Repo**
    ```bash
