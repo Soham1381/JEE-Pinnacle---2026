@@ -1,51 +1,32 @@
 # 🏔️ JEE Pinnacle — Your Path to IIT
-**JEE Pinnacle** is a premier, AI-integrated educational platform designed to streamline preparation for the **JEE Mains and Advanced** exams. Built with a "Zen-first" philosophy, it eliminates the clutter of traditional study sites, offering a high-performance environment for mastering complex concepts through real-time AI generation.
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![AI-Powered](https://img.shields.io/badge/AI--Powered-Claude--Sonnet-7501ff?style=for-the-badge)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
----
-
-## 🚀 The Pinnacle Advantage
-Unlike static resource hubs, **JEE Pinnacle** uses dynamic state management and API integration to provide a personalized learning journey.
-
-### 🧠 Intelligent Content Generation
-*   **Summarized Theory**: Generates concise, exam-relevant notes using specific HTML structures like `formula-box` for equations and `warning-box` for common student errors.
-*   **Adaptive DPPs**: Creates Daily Practice Problems across three difficulty tiers—**Basic** (Concept Building), **Intermediate**, and **Tough** (Multi-concept challenges).
-*   **PYQ Simulation**: Retrieves realistic Previous Year Questions from 2019–2024, complete with metadata (year, shift, marks) and step-by-step solutions.
-
-### 🎨 High-Fidelity "Zen" UI
-*   **Minimalist Design**: Features a professional Navy, Gold, and Cyan color palette to reduce cognitive load during 10+ hour study sessions.
-*   **Seamless Navigation**: Utilizes a single-page application (SPA) architecture with interactive breadcrumbs and back-navigation for a fluid user experience.
-*   **Responsive Architecture**: Fully optimized for deep-work sessions on desktops and quick revision on mobile devices.
+**JEE Pinnacle** is a premium, high-luxury web application designed for elite JEE aspirants. It utilizes a "Himalayan Dark" aesthetic with gold and glacier-blue accents to provide a distraction-free, editorial-grade study environment.
 
 ---
 
-## 🛠️ Technical Architecture
+## 💎 Project Analysis
 
-### **Core Stack**
-*   **Frontend**: Vanilla HTML5 and CSS3 (utilizing CSS Variables, Flexbox, and Grid for a modern layout).
-*   **Engine**: ES6+ JavaScript for state handling, screen transitions, and asynchronous API calls.
-*   **AI Backend**: Integrated with **Claude 3.5 Sonnet** for generating high-quality pedagogical content.
+The platform is engineered as a lightweight **Single Page Application (SPA)** framework built entirely on Vanilla technologies. 
 
-### **Data Structure**
-The platform contains a hardcoded, comprehensive syllabus mapping for:
-*   **Mathematics**: Sets to Vector Algebra.
-*   **Physics**: Kinematics to Semiconductor Devices.
-*   **Chemistry**: Divided into Physical, Organic, and Inorganic sub-sections with specific chapter lists for both Mains and Advanced tracks.
+### ⚡ Key Features
+* **Dual-Exam Tracks**: Dedicated UI logic for both JEE Mains and JEE Advanced.
+* **Dynamic Syllabus Engine**: An object-oriented JavaScript system that renders chapters for Physics, Chemistry (Physical, Organic, Inorganic), and Mathematics.
+* **Study Modules**: Integrated sections for **Theory**, **DPP** (Daily Practice Problems), and **PYQs** (Previous Year Questions).
+* **Aesthetic UI/UX**: Features "glassmorphism" cards, hardware-accelerated scroll reveals, and custom radial-gradient orbs for a premium feel.
 
----
-
-## 🔧 Installation & Setup
-To run the platform locally:
-
-1.  **Clone the Repository**:
-    ```bash
-    git clone [https://github.com/Soham1381/JEE-Pinnacle---2026.git](https://github.com/Soham1381/JEE-Pinnacle---2026.git)
-    ```
-2.  **APITo create the "best" version of this README, I’ve refined the structure to highlight the **AI-driven logic** and the **high-fidelity design** that sets this project apart from standard study portals.
+### 🏗️ Technical Architecture
+* **Navigation Logic**: Uses a custom `showScreen()` state manager to handle transitions between the Home, Subject Selection, Chapter Lists, and Content views without page reloads.
+* **Design System**: Powered by a robust `:root` variable system in CSS for consistent branding (Himalayan Navy, Radiant Gold, and Glacier Cyan).
+* **Performance**: Zero external dependencies. Uses the `Intersection Observer API` for smooth fade-in animations on scroll.
 
 ---
 
+## 🚀 Getting Started
+
+1. **Clone the Repo**
+   ```bash
+   git clone [https://github.com/yourusername/jee-pinnacle.git](https://github.com/yourusername/jee-pinnacle.git)

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JEE Advanced — Pinnacle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="screen-subjects" class="screen active">
+  <nav>
+    <div class="logo" onclick="location.href='index.html'">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb">
+      <span class="crumb" onclick="location.href='index.html'">Home</span>
+      <span class="sep">›</span>
+      <span class="crumb active">Advanced Subjects</span>
+    </div>
+    <div class="exam-badge">JEE Advanced</div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" onclick="location.href='index.html'">← Back</button>
+    <div class="section-header">
+      <h2>Choose Your <span>Subject</span></h2>
+      <p>Select a subject to explore the Advanced syllabus</p>
+    </div>
+    <div class="subject-grid">
+      <div class="subject-card math" onclick="selectSubject('math')">
+        <div class="subject-icon">∑</div>
+        <div class="info"><h3>Mathematics</h3><p>18 chapters</p></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="subject-card physics" onclick="selectSubject('physics')">
+        <div class="subject-icon">⚡</div>
+        <div class="info"><h3>Physics</h3><p>25 chapters</p></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="subject-card chemistry" onclick="selectSubject('chemistry')">
+        <div class="subject-icon">⚗</div>
+        <div class="info"><h3>Chemistry</h3><p>Physical, Organic, Inorganic</p></div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-chem" class="screen">
+  <nav>
+    <div class="logo" onclick="location.href='index.html'">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb">
+      <span class="crumb" onclick="location.href='index.html'">Home</span><span class="sep">›</span>
+      <span class="crumb" onclick="showScreen('screen-subjects')">Advanced Subjects</span><span class="sep">›</span>
+      <span class="crumb active">Chemistry</span>
+    </div>
+    <div class="exam-badge">JEE Advanced</div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" onclick="showScreen('screen-subjects')">← Back to Subjects</button>
+    <div class="section-header">
+      <h2>Chemistry <span>Sections</span></h2>
+      <p>Chemistry is divided into three major branches</p>
+    </div>
+    <div class="subtopic-grid">
+      <div class="subtopic-card" onclick="selectChemSection('physical')">
+        <div class="sub-icon">🔬</div><h3>Physical Chemistry</h3><p>Mole Concept to Kinetics</p>
+      </div>
+      <div class="subtopic-card" onclick="selectChemSection('organic')">
+        <div class="sub-icon">🧬</div><h3>Organic Chemistry</h3><p>GOC to Named Reactions</p>
+      </div>
+      <div class="subtopic-card" onclick="selectChemSection('inorganic')">
+        <div class="sub-icon">⚗️</div><h3>Inorganic Chemistry</h3><p>Chemical Bonding to Coordination</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-chapters" class="screen">
+  <nav>
+    <div class="logo" onclick="location.href='index.html'">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb" id="chapter-breadcrumb"></div>
+    <div class="exam-badge">JEE Advanced</div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" id="ch-back-btn">← Back</button>
+    <div class="section-header">
+      <h2 id="chapter-list-title">Chapters</h2>
+      <p id="chapter-list-sub"></p>
+    </div>
+    <div class="chapter-list" id="chapter-list"></div>
+  </div>
+</div>
+
+<div id="screen-content" class="screen">
+  <nav>
+    <div class="logo" onclick="location.href='index.html'">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb" id="content-breadcrumb"></div>
+    <div class="exam-badge">JEE Advanced</div>
+  </nav>
+  <div class="content-wrap">
+    <button class="back-btn" id="content-back-btn">← Back to Chapters</button>
+    <div class="chapter-header">
+      <h2 id="content-chapter-title"></h2>
+      <div class="meta">
+        <span class="exam-badge">JEE Advanced</span>
+        <span class="exam-badge" id="content-subject-tag" style="background:transparent; border-color:var(--border);"></span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('theory')" id="tab-theory"><span class="tab-icon">📖</span> Theory</button>
+      <button class="tab-btn" onclick="switchTab('dpp')" id="tab-dpp"><span class="tab-icon">✏️</span> Adv DPP</button>
+      <button class="tab-btn" onclick="switchTab('pyq')" id="tab-pyq"><span class="tab-icon">📋</span> Adv PYQs</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-theory">
+      <div class="empty-state"><h4>Theory Content</h4><p>Drop your deep-dive Advanced notes here.</p></div>
+    </div>
+    <div class="tab-panel" id="panel-dpp">
+      <div class="empty-state"><h4>Advanced DPP Material</h4><p>Multi-correct and integer type practice problems.</p></div>
+    </div>
+    <div class="tab-panel" id="panel-pyq">
+      <div class="empty-state"><h4>Advanced Year Questions</h4><p>Upload Advanced PYQs from 2015-2024 here.</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SYLLABUS = {
+  math: ["Sets, Relations and Functions","Complex Numbers & De Moivre's Theorem","Quadratic Equations & Inequalities","Matrices, Determinants & Systems","Permutations, Combinations & Binomial","Sequences, Series & Limits","Differential Calculus — Functions & Derivatives","Applications of Derivatives & Mean Value Theorems","Indefinite & Definite Integration","Differential Equations & Applications","Coordinate Geometry — Straight Lines & Circles","Conic Sections — Parabola, Ellipse, Hyperbola","Three Dimensional Geometry","Vector Algebra & Applications","Probability — Classical & Advanced","Trigonometry & Inverse Functions","Mathematical Induction & Reasoning","Logarithms & Functional Equations"],
+  physics: ["Dimensional Analysis & Measurement","Kinematics — 1D, 2D & Projectile","Laws of Motion — Dynamics","Work, Energy, Power & Collisions","Rotational Dynamics & Moment of Inertia","Gravitation & Orbital Mechanics","Fluid Statics & Dynamics","Elasticity & Surface Tension","Thermal Expansion & Calorimetry","Kinetic Theory & Gas Laws","First & Second Laws of Thermodynamics","Simple Harmonic Motion & Oscillations","Wave Mechanics — Superposition & Doppler Effect","Electrostatics — Fields & Potentials","Capacitors — Energy & Circuits","Current Electricity — Kirchhoff's Laws","Magnetic Force — Biot-Savart & Ampere's Law","Electromagnetic Induction — Faraday & Lenz","Alternating Current Circuits","Electromagnetic Waves — Maxwell's Equations","Geometrical Optics — Mirrors & Lenses","Wave Optics — Interference & Diffraction","Modern Physics — Photoelectric Effect & Compton","Nuclear Physics — Radioactivity & Reactions","Electronics — Semiconductors & Logic Gates"],
+  chemistry: {
+    physical: ["Mole Concept & Stoichiometry","Atomic Structure & Quantum Mechanics","Chemical Bonding — VBT, MOT, VSEPR","States of Matter & Real Gases","Thermodynamics & Thermochemistry","Chemical & Ionic Equilibrium","Redox Reactions & Electrochemistry","Solutions & Colligative Properties","Chemical Kinetics & Rate Laws","Surface Chemistry & Adsorption"],
+    organic: ["GOC — Structure, Nomenclature, Isomerism","GOC — Reaction Mechanisms & Effects","Hydrocarbons — Alkanes, Alkenes, Alkynes","Stereochemistry","Aromaticity & Aromatic Compounds","Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Carbonyl Compounds","Carboxylic Acids & Derivatives","Amines & Diazonium Salts","Biomolecules & Named Reactions","Practical Organic Chemistry"],
+    inorganic: ["Periodic Properties & Chemical Bonding","Hydrogen & Hydrides","s-Block — Alkali & Alkaline Earth","p-Block — Boron & Carbon Family","p-Block — Nitrogen & Oxygen Family","p-Block — Halogens & Noble Gases","d-Block — Transition Elements","f-Block — Lanthanides & Actinides","Coordination Chemistry — Werner's Theory","Coordination Chemistry — Isomerism & EAN","Extractive Metallurgy","Qualitative Salt Analysis"]
+  }
+};
+
+let state = { subject: null, chemSection: null, chapter: null };
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function selectSubject(subject) {
+  state.subject = subject; state.chemSection = null;
+  if (subject === 'chemistry') { showScreen('screen-chem'); } else { loadChapterList(); }
+}
+
+function selectChemSection(section) {
+  state.chemSection = section; loadChapterList();
+}
+
+function loadChapterList() {
+  let chapters, titleText;
+  if (state.subject === 'chemistry') {
+    chapters = SYLLABUS.chemistry[state.chemSection];
+    const labels = { physical:'Physical Chemistry', organic:'Organic Chemistry', inorganic:'Inorganic Chemistry' };
+    titleText = `<span>${labels[state.chemSection]}</span>`;
+  } else {
+    chapters = SYLLABUS[state.subject];
+    const labels = { math:'Mathematics', physics:'Physics' };
+    titleText = `<span>${labels[state.subject]}</span> Chapters`;
+  }
+
+  document.getElementById('chapter-list-title').innerHTML = titleText;
+  document.getElementById('chapter-list-sub').textContent = `${chapters.length} chapters · JEE Advanced`;
+  document.getElementById('ch-back-btn').onclick = state.subject === 'chemistry' ? () => showScreen('screen-chem') : () => showScreen('screen-subjects');
+
+  const subLabel = state.subject === 'chemistry' ? ({physical:'Phys. Chem',organic:'Org. Chem',inorganic:'Inorg. Chem'}[state.chemSection]) : ({math:'Mathematics',physics:'Physics'}[state.subject]);
+  document.getElementById('chapter-breadcrumb').innerHTML = `<span class="crumb" onclick="location.href='index.html'">Home</span><span class="sep">›</span><span class="crumb" onclick="showScreen('screen-subjects')">Advanced Subjects</span>${state.subject==='chemistry'?`<span class="sep">›</span><span class="crumb" onclick="showScreen('screen-chem')">Chemistry</span>`:''}<span class="sep">›</span><span class="crumb active">${subLabel}</span>`;
+
+  document.getElementById('chapter-list').innerHTML = chapters.map((ch, i) => `
+    <div class="chapter-item" onclick="openChapter('${ch.replace(/'/g, "\\'")}')">
+      <span class="ch-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="ch-name">${ch}</span>
+      <div class="ch-tags"><span class="ch-tag">Theory</span><span class="ch-tag">DPP</span><span class="ch-tag">PYQs</span></div>
+      <span class="ch-arrow">›</span>
+    </div>
+  `).join('');
+  showScreen('screen-chapters');
+}
+
+function openChapter(chName) {
+  state.chapter = chName;
+  const subLabel = state.subject === 'chemistry' ? ({physical:'Physical Chem',organic:'Organic Chem',inorganic:'Inorganic Chem'}[state.chemSection]) : ({math:'Mathematics',physics:'Physics'}[state.subject]);
+  document.getElementById('content-chapter-title').textContent = chName;
+  document.getElementById('content-subject-tag').textContent = subLabel;
+  document.getElementById('content-breadcrumb').innerHTML = `<span class="crumb" onclick="location.href='index.html'">Home</span><span class="sep">›</span><span class="crumb" onclick="loadChapterList()">${subLabel}</span><span class="sep">›</span><span class="crumb active">${chName}</span>`;
+  document.getElementById('content-back-btn').onclick = loadChapterList;
+  switchTab('theory');
+  showScreen('screen-content');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+</script>
+</body>
+</html>
