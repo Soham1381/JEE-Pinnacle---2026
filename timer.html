@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Timer — JEE Pinnacle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── TIMER PAGE SPECIFIC ────────────────────────────────────── */
+.timer-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3rem 1.5rem 5rem;
+  gap: 2.5rem;
+  position: relative;
+}
+
+/* Mode Selector */
+.mode-selector {
+  display: flex;
+  gap: 0.75rem;
+  background: rgba(15,22,35,0.7);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 6px;
+  backdrop-filter: blur(12px);
+}
+.mode-btn {
+  padding: 0.55rem 1.4rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.22s, color 0.22s;
+}
+.mode-btn.active {
+  background: rgba(201,168,76,0.12);
+  color: var(--gold);
+}
+.mode-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+}
+
+/* Clock Face */
+.clock-face {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 300px;
+}
+.clock-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.clock-track {
+  fill: none;
+  stroke: rgba(201,168,76,0.08);
+  stroke-width: 6;
+}
+.clock-progress {
+  fill: none;
+  stroke: url(#timerGradient);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+.clock-glow {
+  fill: none;
+  stroke: rgba(79,209,197,0.15);
+  stroke-width: 14;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+  filter: blur(6px);
+}
+.clock-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 1;
+}
+.time-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.time-display.running {
+  color: var(--gold-light);
+}
+.time-display.paused {
+  color: var(--text-secondary);
+}
+.mode-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.session-count {
+  font-size: 0.7rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ctrl-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(15,22,35,0.6);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.22s, border-color 0.22s, color 0.22s, transform 0.18s;
+  backdrop-filter: blur(8px);
+}
+.ctrl-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(201,168,76,0.3);
+  color: var(--text-primary);
+  transform: scale(1.07);
+}
+.play-btn {
+  width: 64px; height: 64px;
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.08));
+  border-color: var(--border-strong);
+  color: var(--gold);
+}
+.play-btn:hover {
+  background: linear-gradient(135deg, rgba(201,168,76,0.32), rgba(201,168,76,0.14));
+  border-color: var(--gold);
+  color: var(--gold-light);
+  box-shadow: 0 0 28px rgba(201,168,76,0.22);
+}
+.play-btn.running {
+  background: linear-gradient(135deg, rgba(79,209,197,0.18), rgba(79,209,197,0.06));
+  border-color: rgba(79,209,197,0.5);
+  color: var(--cyan);
+}
+
+/* Duration picker */
+.duration-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dur-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  margin-bottom: -0.2rem;
+}
+.dur-chip {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: rgba(15,22,35,0.6);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.dur-chip.active {
+  border-color: var(--border-strong);
+  color: var(--gold);
+  background: rgba(201,168,76,0.08);
+}
+.dur-chip:hover:not(.active) {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+}
+
+/* Stats strip */
+.stats-strip {
+  display: flex;
+  gap: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 1.2rem 2.5rem;
+  background: rgba(15,22,35,0.55);
+  backdrop-filter: blur(12px);
+}
+.stat-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.stat-lbl {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.stat-divider {
+  width: 1px;
+  background: var(--border);
+  align-self: stretch;
+}
+
+/* Session log */
+.log-section {
+  width: 100%;
+  max-width: 520px;
+}
+.log-title {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.log-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+.clear-log-btn {
+  display: none;
+  align-items: center;
+  font-size: 0.67rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 3px 11px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.clear-log-btn:hover {
+  color: var(--red);
+  border-color: rgba(224,82,82,0.35);
+}
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 180px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) transparent;
+}
+.log-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  padding: 0.55rem 1rem;
+  background: rgba(15,22,35,0.4);
+  font-size: 0.78rem;
+  animation: panelIn 0.3s ease;
+}
+.log-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-right: 0.6rem;
+  flex-shrink: 0;
+}
+.log-dot.focus  { background: var(--gold); }
+.log-dot.break  { background: var(--cyan); }
+.log-dot.long   { background: var(--chem-color); }
+.log-meta { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; }
+.log-name { color: var(--text-secondary); flex: 1; }
+.log-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 1.5rem 0;
+  border: 1px dashed rgba(201,168,76,0.1);
+  border-radius: var(--r-sm);
+}
+
+/* Notification dot when alarm fires */
+@keyframes alarmPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+  50%       { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+}
+.play-btn.alarm { animation: alarmPulse 0.8s ease 4; }
+
+@media (max-width: 520px) {
+  .clock-face { width: 240px; height: 240px; }
+  .time-display { font-size: 2.9rem; }
+  .stats-strip { gap: 1.5rem; padding: 1rem 1.5rem; }
+  .controls { gap: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="screen active">
+  <nav>
+    <div class="logo" onclick="location.href='index.html'">JEE <span>Pinnacle</span></div>
+    <div class="breadcrumb">
+      <span class="crumb" onclick="location.href='index.html'">Home</span>
+      <span class="sep">›</span>
+      <span class="crumb active">Study Timer</span>
+    </div>
+    <div class="exam-badge" style="color:var(--cyan);border-color:rgba(79,209,197,0.32);background:rgba(79,209,197,0.06);">⏱ Timer</div>
+  </nav>
+
+  <div class="timer-page">
+
+    <!-- Back -->
+    <div style="width:100%;max-width:520px;">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+
+    <!-- Mode Selector -->
+    <div class="mode-selector">
+      <button class="mode-btn active" id="btn-focus"   onclick="setMode('focus')">Focus</button>
+      <button class="mode-btn"        id="btn-break"   onclick="setMode('break')">Short Break</button>
+      <button class="mode-btn"        id="btn-long"    onclick="setMode('long')">Long Break</button>
+      <button class="mode-btn"        id="btn-custom"  onclick="setMode('custom')">Custom</button>
+    </div>
+
+    <!-- Duration chips (hidden for pomodoro modes) -->
+    <div class="duration-row" id="custom-row" style="display:none;">
+      <div class="dur-label">Set Duration</div>
+      <div class="dur-chip" onclick="setCustomDuration(15)">15 min</div>
+      <div class="dur-chip active" onclick="setCustomDuration(25)">25 min</div>
+      <div class="dur-chip" onclick="setCustomDuration(45)">45 min</div>
+      <div class="dur-chip" onclick="setCustomDuration(60)">60 min</div>
+      <div class="dur-chip" onclick="setCustomDuration(90)">90 min</div>
+      <div class="dur-chip" onclick="setCustomDuration(120)">2 hr</div>
+    </div>
+
+    <!-- Clock -->
+    <div class="clock-face">
+      <svg class="clock-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#c9a84c"/>
+            <stop offset="100%" stop-color="#4fd1c5"/>
+          </linearGradient>
+        </defs>
+        <circle class="clock-track"    cx="150" cy="150" r="130"/>
+        <circle class="clock-glow"     cx="150" cy="150" r="130" id="clock-glow"/>
+        <circle class="clock-progress" cx="150" cy="150" r="130" id="clock-arc"/>
+      </svg>
+      <div class="clock-inner">
+        <div class="time-display" id="time-display">25:00</div>
+        <div class="mode-label"   id="mode-label">Focus Session</div>
+        <div class="session-count" id="session-count">Session 1</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="ctrl-btn" onclick="resetTimer()" title="Reset">↺</button>
+      <button class="ctrl-btn play-btn" id="play-btn" onclick="toggleTimer()">▶</button>
+      <button class="ctrl-btn" onclick="skipSession()" title="Skip">⏭</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-strip">
+      <div class="stat-cell">
+        <div class="stat-val" id="stat-sessions">0</div>
+        <div class="stat-lbl">Sessions</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-cell">
+        <div class="stat-val" id="stat-focus">0m</div>
+        <div class="stat-lbl">Focus Time</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-cell">
+        <div class="stat-val" id="stat-breaks">0</div>
+        <div class="stat-lbl">Breaks</div>
+      </div>
+    </div>
+
+    <!-- Session Log -->
+    <div class="log-section">
+      <div class="log-title-row">
+        <div class="log-title">Session Log</div>
+        <button class="clear-log-btn" id="clear-log-btn" onclick="clearLog()">Clear</button>
+      </div>
+      <div class="log-list" id="log-list">
+        <div class="log-empty" id="log-empty">No sessions yet. Start your first timer.</div>
+      </div>
+    </div>
+
+  </div><!-- /timer-page -->
+</div>
+
+<script>
+const MODES = {
+  focus:  { label: 'Focus Session',  minutes: 25, dotClass: 'focus' },
+  break:  { label: 'Short Break',    minutes: 5,  dotClass: 'break' },
+  long:   { label: 'Long Break',     minutes: 15, dotClass: 'long'  },
+  custom: { label: 'Custom Session', minutes: 25, dotClass: 'focus' },
+};
+
+const LS_STATS = 'jee_pinnacle_timer_stats';
+const LS_LOG   = 'jee_pinnacle_timer_log';
+
+let currentMode  = 'focus';
+let totalSeconds = 25 * 60;
+let remaining    = totalSeconds;
+let isRunning    = false;
+let ticker       = null;
+let sessionStart = null;
+
+// ── LOAD PERSISTED STATE ──────────────────────────────────────
+const savedStats = JSON.parse(localStorage.getItem(LS_STATS) || '{}');
+let sessionsCompleted = savedStats.sessionsCompleted || 0;
+let totalFocusMin     = savedStats.totalFocusMin     || 0;
+let totalBreaks       = savedStats.totalBreaks       || 0;
+
+// ── PERSIST HELPERS ───────────────────────────────────────────
+function saveStats() {
+  localStorage.setItem(LS_STATS, JSON.stringify({ sessionsCompleted, totalFocusMin, totalBreaks }));
+}
+
+function loadLog() {
+  return JSON.parse(localStorage.getItem(LS_LOG) || '[]');
+}
+
+function saveLog(entries) {
+  localStorage.setItem(LS_LOG, JSON.stringify(entries));
+}
+
+// ── SVG ARC ───────────────────────────────────────────────────
+const R    = 130;
+const CIRC = 2 * Math.PI * R;
+const arc  = document.getElementById('clock-arc');
+const glow = document.getElementById('clock-glow');
+arc.style.strokeDasharray  = CIRC;
+glow.style.strokeDasharray = CIRC;
+updateArc(1);
+
+function updateArc(fraction) {
+  const offset = CIRC * (1 - fraction);
+  arc.style.strokeDashoffset  = offset;
+  glow.style.strokeDashoffset = offset;
+}
+
+function formatTime(sec) {
+  const m = String(Math.floor(sec / 60)).padStart(2, '0');
+  const s = String(sec % 60).padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function renderDisplay() {
+  const el = document.getElementById('time-display');
+  el.textContent = formatTime(remaining);
+  el.className = 'time-display' + (isRunning ? ' running' : remaining < totalSeconds ? ' paused' : '');
+  updateArc(remaining / totalSeconds);
+  document.title = `${formatTime(remaining)} — JEE Pinnacle`;
+}
+
+function renderStats() {
+  document.getElementById('stat-sessions').textContent = sessionsCompleted;
+  document.getElementById('stat-focus').textContent    = totalFocusMin < 60 ? `${totalFocusMin}m` : `${(totalFocusMin/60).toFixed(1)}h`;
+  document.getElementById('stat-breaks').textContent  = totalBreaks;
+  document.getElementById('session-count').textContent = `Session ${sessionsCompleted + 1}`;
+}
+
+// ── RENDER LOG FROM ARRAY ─────────────────────────────────────
+function renderLog() {
+  const entries = loadLog();
+  const list    = document.getElementById('log-list');
+  list.innerHTML = '';
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="log-empty" id="log-empty">No sessions yet. Start your first timer.</div>';
+    document.getElementById('clear-log-btn').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('clear-log-btn').style.display = 'inline-flex';
+  // Entries stored oldest-first; render newest first
+  [...entries].reverse().forEach(e => {
+    const item = document.createElement('div');
+    item.className = 'log-item';
+    item.innerHTML = `
+      <span class="log-dot ${e.dotClass}"></span>
+      <span class="log-name">${e.name}${e.skipped ? ' <span style="color:var(--text-muted);font-size:0.68rem;">(skipped)</span>' : ''}</span>
+      <span class="log-meta">${e.mins}m · ${e.timeStr}</span>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function clearLog() {
+  localStorage.removeItem(LS_LOG);
+  sessionsCompleted = 0;
+  totalFocusMin     = 0;
+  totalBreaks       = 0;
+  saveStats();
+  renderStats();
+  renderLog();
+}
+
+// ── TIMER CONTROLS ────────────────────────────────────────────
+function setMode(mode) {
+  if (isRunning) pauseTimer();
+  currentMode  = mode;
+  totalSeconds = MODES[mode].minutes * 60;
+  remaining    = totalSeconds;
+
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + mode).classList.add('active');
+  document.getElementById('mode-label').textContent = MODES[mode].label;
+  document.getElementById('custom-row').style.display = mode === 'custom' ? 'flex' : 'none';
+
+  renderDisplay();
+  resetPlayBtn();
+}
+
+function setCustomDuration(mins) {
+  MODES.custom.minutes = mins;
+  if (currentMode === 'custom') {
+    totalSeconds = mins * 60;
+    remaining    = totalSeconds;
+    renderDisplay();
+  }
+  document.querySelectorAll('#custom-row .dur-chip').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function toggleTimer() {
+  isRunning ? pauseTimer() : startTimer();
+}
+
+function startTimer() {
+  isRunning    = true;
+  sessionStart = sessionStart || new Date();
+  const btn    = document.getElementById('play-btn');
+  btn.textContent = '⏸';
+  btn.classList.add('running');
+
+  ticker = setInterval(() => {
+    if (remaining <= 0) { finishSession(); return; }
+    remaining--;
+    renderDisplay();
+  }, 1000);
+}
+
+function pauseTimer() {
+  isRunning = false;
+  clearInterval(ticker);
+  ticker = null;
+  resetPlayBtn();
+  renderDisplay();
+}
+
+function resetTimer() {
+  pauseTimer();
+  remaining    = totalSeconds;
+  sessionStart = null;
+  renderDisplay();
+}
+
+function skipSession() {
+  pauseTimer();
+  finishSession(true);
+}
+
+function resetPlayBtn() {
+  const btn = document.getElementById('play-btn');
+  btn.textContent = '▶';
+  btn.classList.remove('running', 'alarm');
+}
+
+function finishSession(skipped = false) {
+  clearInterval(ticker);
+  isRunning = false;
+  const now     = new Date();
+  const elapsed = sessionStart ? Math.round((now - sessionStart) / 60000) : MODES[currentMode].minutes;
+  sessionStart  = null;
+
+  // Update stats
+  if (currentMode === 'focus' || currentMode === 'custom') {
+    sessionsCompleted++;
+    totalFocusMin += elapsed;
+  } else {
+    totalBreaks++;
+  }
+  saveStats();
+  renderStats();
+
+  // Persist log entry
+  const entries = loadLog();
+  entries.push({
+    name:     MODES[currentMode].label,
+    mins:     elapsed,
+    dotClass: MODES[currentMode].dotClass,
+    skipped:  skipped,
+    timeStr:  now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    ts:       now.toISOString(),
+  });
+  saveLog(entries);
+  renderLog();
+
+  // Alarm pulse
+  const btn = document.getElementById('play-btn');
+  btn.classList.add('alarm');
+  setTimeout(() => btn.classList.remove('alarm'), 3500);
+
+  // Browser notification
+  if (Notification.permission === 'granted') {
+    new Notification('JEE Pinnacle', { body: `${MODES[currentMode].label} complete!`, icon: '' });
+  }
+
+  remaining = totalSeconds;
+  renderDisplay();
+  resetPlayBtn();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+renderStats();
+renderLog();
+renderDisplay();
+
+document.getElementById('play-btn').addEventListener('click', () => {
+  if (Notification.permission === 'default') Notification.requestPermission();
+}, { once: true });
+</script>
+</body>
+</html>
